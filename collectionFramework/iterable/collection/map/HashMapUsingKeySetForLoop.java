@@ -1,0 +1,18 @@
+package java_codes.collectionFramework.iterable.collection.map;
+
+import java.util.HashMap;
+
+public class HashMapUsingKeySetForLoop {
+    public static void main(String args[]) {
+	    // Creating a HashMap of String keys and String values
+	    HashMap<String, String> hashmap = new HashMap<String, String>();
+	    hashmap.put("Key1", "Value1");
+	    hashmap.put("Key2", "Value2");
+	    
+	    // Iterating or looping using keySet() method
+	    System.out.println("Iterating or looping map using foreach loop");
+	    for (String key : hashmap.keySet()) {
+	        System.out.println("key: " + key + " value: " + hashmap.get(key));
+	    }
+  }
+}

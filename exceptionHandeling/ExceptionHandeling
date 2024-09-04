@@ -1,0 +1,152 @@
+JAVA EXCEPTION HANDELING :
+--------------------------
+
+	Throwable :
+	. The Throwable class in Java is the root of exceptions and errors in the Java language.
+	. All exception and error classes in Java (including Exception, RuntimeException, Error, etc.) directly or indirectly inherit from Throwable.
+
+	. When an exception occurs, a Throwable object is created and thrown. This object encapsulates information about the error, such as the type of exception, its message, and the call stack (trace of method calls leading to the exception).
+
+	. Methods : Throwable provides several useful methods for handling exceptions:
+		. getMessage() :
+			Returns the detail message associated with the exception (if any).
+		. printStackTrace() :
+			Prints the stack trace of the exception to the standard error output stream. This is helpful for debugging purposes.
+		. getCause() :
+			Returns the cause of this throwable (if any). This allows for chaining exceptions, where one exception can be caused by another.
+		. getStackTrace() :
+			Returns an array of StackTraceElement objects representing the call stack at the time the exception was thrown.
+
+	public class DivisionByZero {
+		public static void main(String[] args) {
+			try {
+				int result = 10 / 0; // This line will throw an ArithmeticException
+				System.out.println(result);
+			} catch (Throwable t) {
+				System.out.println("An error occurred:");
+				// Get the type of exception
+				System.out.println("Exception type: " + t.getClass().getName());
+				// Get the error message (if any)
+				System.out.println("Error message: " + t.getMessage());
+				// Print the stack trace for debugging
+				t.printStackTrace();
+			}
+		}
+	}
+
+	Output:
+	An error occurred:
+	Exception type: java.lang.ArithmeticException
+	Error message: / by zero
+	java.lang.ArithmeticException: / by zero
+    at DivisionByZero.main(DivisionByZero.java:7)
+
+	. Using Throwable directly in catch blocks is generally not recommended unless you intend to handle all possible exceptions in the same way.
+
+
+
+	Error :
+	. Error is a subclass of Throwable that represents serious problems that are typically not recoverable within an application. These errors often indicate environmental or system issues that are beyond the program's control.
+
+	. Errors are intended for exceptional situations that should not occur under normal program execution. They signal severe resource issues, virtual machine malfunctions, or other critical problems.
+
+	. Unlike checked exceptions, catching Error is not mandatory in a try-catch block. The Java compiler doesn't require you to declare throws Error in method signatures, as these errors are not anticipated.
+
+	.Recovering from an Error is generally difficult or impossible within the application itself. Often, these errors require program termination or system intervention.
+
+	. Subclasses of Error :
+		. OutOfMemoryError,
+		. StackOverflowError, and
+		. VirtualMachineError.
+
+	public class OutOfMemoryErrorExample {
+
+		public static void main(String[] args) {
+			try {
+				// Code that intentionally allocates a massive amount of memory,
+				// potentially causing an OutOfMemoryError
+				byte[] largeArray = new byte[Integer.MAX_VALUE];
+			} catch (Error e) { // Not recommended to catch Error directly
+				System.out.println("A critical error occurred:");
+				System.out.println("Error type: " + e.getClass().getName());
+				System.out.println("Error message: " + e.getMessage());
+				// Consider logging the error or gracefully terminating the program
+			}
+		}
+	}
+
+	. Catching Error is generally not advisable. It's better to design your application to avoid situations that might lead to these errors or implement robust error handling mechanisms for specific Error subclasses if necessary.
+
+
+
+	Exception :
+	-----------
+		. Exceptions are events that disrupt the normal flow of program execution. They represent unexpected conditions that occur during runtime.
+		. When an exception occurs, an exception object is created and thrown. This object contains information about the error, including the type of exception and its message.
+
+		Type of Exception :
+		1. Checked Exceptions:
+			These exceptions are compiled-time errors. The Java compiler requires you to either declare that a method throws a checked exception or handle it within the method itself using a try-catch block. Examples include IOException (for file input/output issues) and ClassNotFoundException (when a class cannot be found).
+
+		2. Unchecked Exceptions:
+			These exceptions are runtime errors. The Java compiler doesn't force you to handle them, but it's generally good practice to do so for robust applications. Unchecked exceptions typically represent programming errors or unexpected conditions that can be handled gracefully (e.g., NullPointerException, IndexOutOfBoundsException).
+
+
+
+	Exception Handling Mechanisms :
+	1. try-catch Block:
+		This is the most common way to handle exceptions. It consists of a try block that contains the code you want to monitor for exceptions, followed by one or more catch blocks that specify the type of exception to handle and the code to execute if that exception occurs.
+
+		try {
+			int result = 10 / 0; // This line will throw an ArithmeticException
+			System.out.println(result);
+		} catch (ArithmeticException e) {
+			System.out.println("Division by zero error occurred!");
+		}
+
+
+	2. throws Keyword:
+		This keyword is used within a method declaration to indicate that the method might throw a specific exception (or exceptions). It helps callers understand the potential exceptions that could arise when calling the method and allows them to handle them appropriately.
+
+		public void readFile(String filename) throws IOException {
+			// Code that reads a file
+		}
+
+
+	3. finally{} Block:
+		The finally{} block is an optional block that always executes, regardless of whether an exception occurs or not. It's typically used to release resources (e.g., closing files, database connections) that were acquired within the try block. The finally block ensures that these resources are properly cleaned up even if an exception disrupts the normal program flow.
+
+
+		You cannot use a finally block by itself without a try block. The finally block relies on the try block to define the code segment it needs to execute after.
+
+		try(){}...catch(){}...catch(){}...finally{}
+		try(){}...catch(){}...finally{}
+		try(){}...finally{}
+
+
+		Notes :
+		. You cannot have multiple try blocks with a single catch.catch creates ambiguity about which exception the catch block should handle
+
+		. some alternative approaches:
+			. Nested Try-Catch Blocks
+			. Multiple Catch Blocks
+			. Separate Try-Catch Blocks
+
+
+		try (Scanner scanner = new Scanner(new File("data.txt"))) {
+			// Code that reads data from the file
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found!");
+		} finally {
+			// Scanner object will be automatically closed here
+		}
+
+
+		Benefits of Exception Handling :
+
+		. Robustness:
+			By handling exceptions gracefully, you can prevent your program from crashing unexpectedly and make it more resilient to unexpected errors.
+		. Maintainability:
+			Exception handling improves the code's readability and maintainability by separating normal program flow from error handling logic.
+		. Informative Error Messages:
+			You can provide informative error messages to users when exceptions occur, helping them understand the issue and possibly take corrective actions.
