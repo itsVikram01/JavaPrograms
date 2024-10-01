@@ -8,23 +8,21 @@ Singleton class :
 	Consider the water jug in the office and if every employee wants that water then they will not create a new water jug for drinking water.They will use the existing one with their own reference as a glass. So programmatically it should be implemented as -
 
 	class WaterJug{
-	   private int waterQuantity = 500;
-	   private WaterJug(){}
-	   private WaterJug object = null;
-
-	   // Method to provide the service of Giving Water.
-	   public int getWater(int quantity){
-		   waterQuantity -= quantity;
-		   return quantity;
-	   }
-	   // Method to return the object to the user.
-	   public static Waterjug getInstance(){
-		   // Will Create a new object if the object is not already created and return the object.
-		   if(object == null){
-			   object = new WaterJug();
-		   }
-		   return object;
-	   }
+	    private WaterJug(){}
+	    
+	    private int waterQuantity = 500;
+	    private static WaterJug object = null;
+	
+	    public int getWater(int quantity){
+	        waterQuantity -= quantity;
+	        return quantity;
+	    }
+	    public static WaterJug getInstance(){
+	        if(object == null){
+	            object = new WaterJug();
+	        }
+	        return object;
+	    }
 	}
 
 
